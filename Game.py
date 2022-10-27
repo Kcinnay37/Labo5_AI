@@ -1,6 +1,7 @@
 import pygame
 from Engine import Engine
 from AI import AI
+from Timer import Timer
 
 class Game:
     isRun:bool
@@ -15,11 +16,14 @@ class Game:
 
     engine:Engine
 
+    timer:Timer
+
     AI:AI
 
     def __init__(self):
         self.isRun = True
         self.engine = Engine()
+        self.timer = Timer()
         pygame.init()
         self.GameInit()
 
@@ -35,7 +39,8 @@ class Game:
     def GameLoop(self):
         self.ProcessInput()
 
-        self.engine.Update(0)
+        self.timer.Update()
+        self.engine.Update(self.timer.GetDeltaTime())
 
         self.Render()
 
@@ -48,6 +53,7 @@ class Game:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed()[0]:
                     self.AI.SetDestination(pygame.mouse.get_pos())
+                    self.AI.ResetCurrVelo()
 
 
 

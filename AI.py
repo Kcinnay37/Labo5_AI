@@ -12,6 +12,7 @@ class AI(Actor):
 
     vectRight:pygame.math.Vector2
     forward:pygame.math.Vector2
+    currVelo:pygame.math.Vector2
 
     destination:pygame.math.Vector2
 
@@ -37,6 +38,7 @@ class AI(Actor):
         self.angle = 0
         self.vectRight = pygame.math.Vector2(1, 0)
         self.forward = pygame.math.Vector2(1, 0)
+        self.currVelo = pygame.math.Vector2()
 
         self.defaultImg = pygame.image.load(imagePath)
         self.defaultImg = pygame.transform.scale(self.defaultImg, self.size)
@@ -46,7 +48,7 @@ class AI(Actor):
         self.isMoving = False
 
         self.maxSpeed = 10
-        self.minSpeed = 5
+        self.minSpeed = 2
 
         self.lenghtDest = 0
         self.initialPos = pygame.math.Vector2(self.midPos)
@@ -71,14 +73,16 @@ class AI(Actor):
 
         self.angle = -self.vectRight.angle_to(self.forward)
 
+
     def SetState(self, state:str):
         self.aiState = state
         print("current state = " + self.aiState)
 
-    def Seek(self, dt:float):
+    def ResetCurrVelo(self):
+        self.currVelo = self.forward * self.minSpeed
 
-        velo = self.forward
-        self.Move(velo)
+    def Seek(self, dt:float):
+        self.Move(self.currVelo)
 
     def Flee(self, dt:float):
         pass
