@@ -1,0 +1,3 @@
+{
+    "files": ["Game.py","AI.py","Window.py","main.py","Actor.py","Engine.py","Vector2.py"]
+}
