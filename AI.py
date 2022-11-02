@@ -58,8 +58,8 @@ class AI(Actor):
         self.destination = pygame.math.Vector2(self.midPos)
         self.isMoving = False
 
-        self.maxSpeed = 8
-        self.minSpeed = 4
+        self.maxSpeed = 7
+        self.minSpeed = 2
 
         self.lenghtDest = 0
         self.initialPos = pygame.math.Vector2(self.midPos)
@@ -91,6 +91,8 @@ class AI(Actor):
         vectDist = self.destination - self.midPos
         self.lenghtDest = vectDist.length()
         self.initialPos = self.midPos
+        self.distDecelerate = (vectDist.length() / 100) * 50
+        self.accelerateAndDecelerateTime = vectDist.length() / 1000
 
         self.SetRotation()
 
@@ -114,8 +116,7 @@ class AI(Actor):
         self.currTime = 0
 
     def Seek(self, dt:float):
-        distArrive:float = (self.pos - self.destination).magnitude()
-
+        distArrive:float = (self.midPos - self.destination).magnitude()
         if distArrive <= self.distDecelerate:
             self.currTime -= dt
             if self.currTime < 0:
@@ -166,6 +167,7 @@ class AI(Actor):
             self.isMoving = True
         
         if self.isMoving:
+            print(velo)
             self.pos += velo
             self.midPos = self.pos + (self.size / 2)
 
